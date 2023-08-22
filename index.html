@@ -9,7 +9,7 @@
   </head>
   <body>
     <!-- シーンの作成、VRモードのUI非表示 -->
-    <a-scene>
+   <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false" renderer="antialias: true; alpha: true" inspector="" keyboard-shortcuts="" screenshot="" device-orientation-permission-ui="">
       <a-assets>
         <!-- 3Dモデルを読み込む -->
         <a-asset-item id="applemove" src="applemove.glb" scale="1 1 1"></a-asset-item>
