@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>A-Frame Color Change</title>
+    <title>Distance Display</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 </head>
 <body>
@@ -12,17 +12,17 @@
 
         <!-- 赤い立方体 -->
         <a-box id="redBox" color="red" position="0 1.6 -5"></a-box>
-
-        <!-- 距離を表示するテキスト -->
-        <a-text id="distanceText" position="-2 2.5 -5" scale="2 2 2" color="white"></a-text>
     </a-scene>
+
+    <!-- 距離を表示する要素 -->
+    <div id="distanceDisplay" style="position: absolute; top: 20px; right: 20px; color: white; font-size: 24px;"></div>
 
     <script>
         // カメラと赤い立方体の距離を監視する関数
         function checkDistance() {
             const camera = document.querySelector('a-camera');
             const redBox = document.querySelector('#redBox');
-            const distanceText = document.querySelector('#distanceText');
+            const distanceDisplay = document.querySelector('#distanceDisplay');
             
             // カメラと赤い立方体の位置を取得
             const cameraPosition = new THREE.Vector3().setFromMatrixPosition(camera.object3D.matrixWorld);
@@ -32,7 +32,7 @@
             const distance = cameraPosition.distanceTo(redBoxPosition);
 
             // 距離をテキストとして表示
-            distanceText.setAttribute('value', 'Distance: ' + distance.toFixed(2) + 'm');
+            distanceDisplay.textContent = 'Distance: ' + distance.toFixed(2) + 'm';
 
             // 距離が10メートル未満の場合、色を黄色に変更
             if (distance < 10) {
