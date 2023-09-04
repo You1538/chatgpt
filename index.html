@@ -11,7 +11,7 @@
         <a-entity camera look-controls></a-entity>
 
         <!-- 赤い立方体 -->
-        <a-box id="redBox" color="red" position="0 0 -1"></a-box>
+        <a-box id="redBox" color="red" position="0 1.6 -5"></a-box>
     </a-scene>
 
     <script>
@@ -21,8 +21,8 @@
             const redBox = document.querySelector('#redBox');
             
             // カメラと赤い立方体の位置を取得
-            const cameraPosition = camera.getAttribute('position');
-            const redBoxPosition = redBox.getAttribute('position');
+            const cameraPosition = new THREE.Vector3().setFromMatrixPosition(camera.object3D.matrixWorld);
+            const redBoxPosition = new THREE.Vector3().setFromMatrixPosition(redBox.object3D.matrixWorld);
 
             // 二つの位置の距離を計算
             const distance = cameraPosition.distanceTo(redBoxPosition);
