@@ -1,29 +1,46 @@
-<html>
-  <head>
-    <!-- A-Frameを読み込む -->
-    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    <!-- animationmixerを読み込む -->
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-    <!-- 原因菌をぶち込む -->
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-  </head>
-  <body>
-    <!-- シーンの作成、VRモードのUI非表示 -->
-   <a-scene vr-mode-ui="enabled: false" arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false" renderer="antialias: true; alpha: true" inspector="" keyboard-shortcuts="" screenshot="" device-orientation-permission-ui="">
-      <a-assets>
-        <!-- 3Dモデルを読み込む -->
-        <a-asset-item id="applemove" src="applemove.glb" scale="1 1 1"></a-asset-item>
-      </a-assets>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>A-Frame Color Change</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+</head>
+<body>
+    <a-scene>
+        <!-- カメラ -->
+        <a-entity camera look-controls></a-entity>
 
-        <!-- リンゴ -->
-       <a-entity 
-        gltf-model="#applemove"
-        position="0 0 -4" 
-        rotation="0 0 0" 
-        scale="1 1 1" 
-        animation-mixer>
-       </a-entity>
-
+        <!-- 赤い立方体 -->
+        <a-box id="redBox" color="red" position="0 1.6 -5"></a-box>
     </a-scene>
-  </body>
+
+    <script>
+        // カメラと赤い立方体の距離を監視する関数
+        function checkDistance() {
+            const camera = document.querySelector('a-camera');
+            const redBox = document.querySelector('#redBox');
+            
+            // カメラと赤い立方体の位置を取得
+            const cameraPosition = camera.getAttribute('position');
+            const redBoxPosition = redBox.getAttribute('position');
+
+            // 二つの位置の距離を計算
+            const distance = cameraPosition.distanceTo(redBoxPosition);
+
+            // 距離が10メートル未満の場合、色を黄色に変更
+            if (distance < 10) {
+                redBox.setAttribute('color', 'yellow');
+            } else {
+                redBox.setAttribute('color', 'red');
+            }
+        }
+
+        // カメラの位置が変更されるたびに距離をチェック
+        const camera = document.querySelector('a-camera');
+        camera.addEventListener('componentchanged', checkDistance);
+
+        // 初期状態で距離をチェック
+        checkDistance();
+    </script>
+</body>
 </html>
