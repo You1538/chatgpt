@@ -8,7 +8,7 @@
 <body>
     <a-scene xrweb>
         <!-- AR用のカメラ -->
-        <a-entity camera ar.js="sourceType: webcam;"></a-entity>
+        <a-entity camera look-controls></a-entity>
 
         <!-- 連続的に色が変化する立方体 -->
         <a-box id="colorChangingBox" color="#ff0000" position="0 1.6 -3"></a-box>
