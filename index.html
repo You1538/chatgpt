@@ -19,7 +19,7 @@
             tick: function (time, timeDelta) {
                 // 時間に基づいて色を連続的に変化させる
                 const colorChangingBox = this.el;
-                const hue = (time / 1000) % 1; // 色相を時間に基づいて変化させる
+                const hue = (time / 3000) % 1; // 色相を時間に基づいて変化させる
                 const color = new THREE.Color().setHSL(hue, 1, 0.5);
                 colorChangingBox.setAttribute('material', 'color', color.getStyle());
             }
