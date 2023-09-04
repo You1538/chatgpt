@@ -11,7 +11,10 @@
         <a-entity camera look-controls></a-entity>
 
         <!-- 赤い立方体 -->
-        <a-box id="redBox" color="yellow" position="0 0 -1"></a-box>
+        <a-box id="redBox" color="red" position="0 1.6 -5"></a-box>
+
+        <!-- 距離を表示するテキスト -->
+        <a-text id="distanceText" position="-2 2.5 -5" scale="2 2 2" color="white"></a-text>
     </a-scene>
 
     <script>
@@ -19,6 +22,7 @@
         function checkDistance() {
             const camera = document.querySelector('a-camera');
             const redBox = document.querySelector('#redBox');
+            const distanceText = document.querySelector('#distanceText');
             
             // カメラと赤い立方体の位置を取得
             const cameraPosition = new THREE.Vector3().setFromMatrixPosition(camera.object3D.matrixWorld);
@@ -27,11 +31,14 @@
             // 二つの位置の距離を計算
             const distance = cameraPosition.distanceTo(redBoxPosition);
 
+            // 距離をテキストとして表示
+            distanceText.setAttribute('value', 'Distance: ' + distance.toFixed(2) + 'm');
+
             // 距離が10メートル未満の場合、色を黄色に変更
-            if (distance < 30) {
-                redBox.setAttribute('color', 'red');
+            if (distance < 10) {
+                redBox.setAttribute('color', 'yellow');
             } else {
-                redBox.setAttribute('color', 'blue');
+                redBox.setAttribute('color', 'red');
             }
         }
 
