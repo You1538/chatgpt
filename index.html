@@ -1,58 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>AR Color Changing Cube</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-</head>
-<body>
-    <a-scene xrweb>
-        <!-- AR用のカメラ -->
-        <a-entity camera look-controls></a-entity>
-
-        <!-- 連続的に色が変化する立方体 -->
-        <a-box id="colorChangingBox" color="#ff0000" position="0 1.6 -3"></a-box>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Location-based AR.js demo</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; debugUIEnabled: false;"
+    >
+      <a-box
+        material="color: red"
+        gps-entity-place="latitude: 37.956217; longitude: 139.337652;"
+        scale="30 30 30"
+      ></a-box>
+      <a-camera gps-camera="minDistance:1; maxDistance:10" rotation-reader> </a-camera>
     </a-scene>
-
-    <script>
-        AFRAME.registerComponent('color-changer', {
-            tick: function (time, timeDelta) {
-                // 時間に基づいて色を連続的に変化させる
-                const colorChangingBox = this.el;
-                const hue = (time / 3000) % 1; // 色相を時間に基づいて変化させる
-                const color = new THREE.Color().setHSL(hue, 1, 0.5);
-                colorChangingBox.setAttribute('material', 'color', color.getStyle());
-            }
-        });
-
-        // 立方体に色変更コンポーネントを追加
-        const colorChangingBox = document.querySelector('#colorChangingBox');
-        colorChangingBox.setAttribute('color-changer', '');
-
-        // ARセッションを開始
-        document.querySelector('a-scene').addEventListener('loaded', function () {
-            const scene = this;
-            const camera = scene.querySelector('[camera]');
-
-            scene.renderer.xr.enabled = true;
-            scene.renderer.xr.getSession().then(function (session) {
-                session.updateReferenceSpaceType('local');
-                session.requestReferenceSpace('local').then(function (referenceSpace) {
-                    session.requestAnimationFrame(function (time, frame) {
-                        camera.components['arjs'].updateARToolKit();
-                    });
-                });
-
-                session.addEventListener('end', function () {
-                    window.location.reload();
-                });
-
-                session.requestSession({ requiredFeatures: ['local'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.body } }).then(function () {
-                    camera.setAttribute('camera', 'active', true);
-                    scene.add(camera);
-                });
-            });
-        });
-    </script>
-</body>
+  </body>
 </html>
